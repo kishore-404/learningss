@@ -1,14 +1,28 @@
-// src/api.ts
-import axios from 'axios';
+// api.ts
+import axios from "axios";
 
-const apiBase = import.meta.env.VITE_API_URL; 
+const BaseURL = import.meta.env.VITE_API_URL as string;
 
-export const getDummyData = async () => {
-  try {
-    const response = await axios.get(`${apiBase}`);
-    return response.data[2];
-  } catch (error) {
-    console.error('Error fetching dummy data:', error);
-    throw error;
-  }
+export interface User {
+  id?: number;
+  name: string;
+  username: string;
+  email: string;
+
+  website: string;
+  address: {
+    city: string;
+  };
+  company: {
+    name: string;
+  };
+}
+
+export const fetchUsers = async () => {
+  const response = await axios.get<User[]>(BaseURL);
+  return response.data;
 };
+
+export const createData = (data : User)=>{
+  return axios.post(`${BaseURL}`,data)
+}
