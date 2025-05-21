@@ -1,28 +1,22 @@
-// api.ts
 import axios from "axios";
-
-const BaseURL = import.meta.env.VITE_API_URL as string;
 
 export interface User {
   id?: number;
   name: string;
   username: string;
   email: string;
-
-  website: string;
-  address: {
-    city: string;
-  };
-  company: {
-    name: string;
-  };
 }
 
-export const fetchUsers = async () => {
-  const response = await axios.get<User[]>(BaseURL);
+const BASE_URL = "https://jsonplaceholder.typicode.com/users";
+
+
+export const getUser = async (userId: number) => {
+  const response = await axios.get<User>(`${BASE_URL}/${userId}`);
   return response.data;
 };
 
-export const createData = (data : User)=>{
-  return axios.post(`${BaseURL}`,data)
-}
+
+export const updateUser = async (userId: number, userData: User) => {
+  const response = await axios.put<User>(`${BASE_URL}/${userId}`, userData);
+  return response.data;
+};
